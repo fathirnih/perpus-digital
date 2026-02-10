@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\AnggotaAuthController;
+use App\Http\Controllers\Admin\AnggotaController;
 
 
 Route::get('/', function() {
@@ -24,4 +25,10 @@ Route::post('/anggota/logout', [AnggotaAuthController::class, 'logout'])->name('
 
 Route::middleware('auth:anggota')->group(function () {
     Route::get('/anggota/dashboard', [AnggotaAuthController::class, 'dashboard'])->name('anggota.dashboard');
+});
+
+
+// Route CRUD Anggota untuk admin
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/anggota', [AnggotaController::class, 'index'])->name('admin.anggota.index');
 });

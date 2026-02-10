@@ -40,7 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'anggota' => [
+        'driver' => 'session',
+        'provider' => 'anggota',
     ],
+    ],
+
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -69,6 +75,10 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'anggota' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Anggota::class,
+    ],
     ],
 
     /*

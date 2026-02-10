@@ -14,7 +14,21 @@
     <input type="text" name="judul" placeholder="Judul" class="border p-2 rounded" required>
     <input type="text" name="pengarang" placeholder="Pengarang" class="border p-2 rounded">
     <input type="text" name="penerbit" placeholder="Penerbit" class="border p-2 rounded">
-    <input type="text" name="kategori" placeholder="Kategori" class="border p-2 rounded">
+    
+    <!-- Tahun Terbit -->
+    <input type="number" name="tahun_terbit" placeholder="Tahun Terbit" class="border p-2 rounded" required>
+
+    <!-- Jumlah -->
+    <input type="number" name="jumlah" placeholder="Jumlah Buku" class="border p-2 rounded" required>
+
+    <!-- Dropdown Kategori -->
+    <select name="kategori_id" class="border p-2 rounded" required>
+        <option value="">-- Pilih Kategori --</option>
+        @foreach($kategori as $k)
+            <option value="{{ $k->id }}">{{ $k->nama }}</option>
+        @endforeach
+    </select>
+
     <button type="submit" class="bg-green-600 text-white py-2 rounded hover:bg-green-700">Tambah</button>
 </form>
 @endsection

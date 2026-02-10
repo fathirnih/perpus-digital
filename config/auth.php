@@ -42,6 +42,11 @@ return [
         ],
     ],
 
+    'anggota' => [
+        'driver' => 'session',
+        'provider' => 'anggota',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -69,6 +74,10 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'anggota' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Anggota::class,
+    ],
     ],
 
     /*

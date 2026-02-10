@@ -30,5 +30,5 @@ Route::middleware('auth:anggota')->group(function () {
 
 // Route CRUD Anggota untuk admin
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/anggota', [AnggotaController::class, 'index'])->name('admin.anggota.index');
+    Route::resource('/admin/anggota', AnggotaController::class, ['as' => 'admin']);
 });

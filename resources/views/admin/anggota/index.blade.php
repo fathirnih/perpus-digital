@@ -9,22 +9,37 @@
 @section('content')
 <h1 class="text-3xl font-bold mb-4">Daftar Anggota</h1>
 
+<a href="{{ route('admin.anggota.create') }}" class="bg-green-600 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-green-700">Tambah Anggota</a>
+
+@if(session('success'))
+    <p class="text-green-600 mb-4">{{ session('success') }}</p>
+@endif
+
 <table class="w-full table-auto border">
     <thead>
         <tr class="bg-gray-200">
             <th class="border px-2 py-1">#</th>
-            <th class="border px-2 py-1">Nama</th>
             <th class="border px-2 py-1">NISN</th>
+            <th class="border px-2 py-1">Nama</th>
             <th class="border px-2 py-1">Kelas</th>
+            <th class="border px-2 py-1">Aksi</th>
         </tr>
     </thead>
     <tbody>
         @foreach($anggota as $i => $a)
         <tr>
             <td class="border px-2 py-1">{{ $i + 1 }}</td>
-            <td class="border px-2 py-1">{{ $a->nama }}</td>
             <td class="border px-2 py-1">{{ $a->nisn }}</td>
+            <td class="border px-2 py-1">{{ $a->nama }}</td>
             <td class="border px-2 py-1">{{ $a->kelas }}</td>
+            <td class="border px-2 py-1 flex gap-2">
+                <a href="{{ route('admin.anggota.edit', $a->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Edit</a>
+                <form action="{{ route('admin.anggota.destroy', $a->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>

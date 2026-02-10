@@ -11,7 +11,7 @@
             <a href="{{ route('anggota.peminjaman') }}" class="hover:underline">Peminjaman Buku</a>
         </li>
         <li class="mb-2">
-            <a href="#" class="hover:underline">Pengembalian</a>
+            <a href="{{ route('anggota.pengembalian') }}" class="hover:underline">Pengembalian</a>
         </li>
         <li class="mb-2">
             <form method="POST" action="{{ route('anggota.logout') }}">
@@ -34,7 +34,7 @@
         <a href="{{ route('anggota.peminjaman') }}" class="bg-green-600 text-white p-6 rounded hover:bg-green-700 text-center">
             Peminjaman Buku
         </a>
-        <a href="#" class="bg-yellow-500 text-white p-6 rounded hover:bg-yellow-600 text-center">
+        <a href="{{ route('anggota.pengembalian') }}" class="bg-yellow-500 text-white p-6 rounded hover:bg-yellow-600 text-center">
             Pengembalian Buku
         </a>
     </div>

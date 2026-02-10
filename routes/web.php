@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\Admin\BukuController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\Admin\PengembalianController;
 use App\Http\Controllers\Admin\PeminjamanController as AdminPeminjamanController;
 
 
@@ -30,16 +31,17 @@ Route::post('/anggota/register', [AnggotaAuthController::class, 'register']);
 
 
 // Middleware admin
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard.index');
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 
     // CRUD admin
-    Route::resource('/admin/anggota', AnggotaController::class, ['as' => 'admin']);
-    Route::resource('/admin/buku', BukuController::class, ['as' => 'admin'])->except(['show']);
-    Route::resource('/admin/kategori', KategoriController::class, ['as' => 'admin'])->except(['show']);
+    Route::resource('anggota', AnggotaController::class, ['as' => 'admin']);
+    Route::resource('buku', BukuController::class, ['as' => 'admin'])->except(['show']);
+    Route::resource('kategori', KategoriController::class, ['as' => 'admin'])->except(['show']);
 
-    Route::get('peminjaman', [AdminPeminjamanController::class, 'index'])->name('admin.peminjaman.index');
-    Route::patch('peminjaman/{id}/terima', [AdminPeminjamanController::class, 'terimaKembali'])->name('admin.peminjaman.terima');
+    Route::get('pengembalian', [PengembalianController::class, 'index'])->name('admin.pengembalian.index');
+    Route::patch('pengembalian/terima/{id}', [App\Http\Controllers\Admin\PengembalianController::class, 'terimaKembali'])->name('admin.pengembalian.terima');
+    Route::patch('pengembalian/tolak/{id}', [App\Http\Controllers\Admin\PengembalianController::class, 'tolakKembali'])->name('admin.pengembalian.tolak');
 });
 
 // Middleware anggota
@@ -49,5 +51,5 @@ Route::middleware('auth:anggota')->group(function () {
     Route::get('/anggota/peminjaman', [PeminjamanController::class, 'index'])->name('anggota.peminjaman');
     Route::post('/anggota/peminjaman', [PeminjamanController::class, 'store'])->name('anggota.peminjaman.store');
     Route::get('pengembalian', [PeminjamanController::class, 'pengembalian'])->name('anggota.pengembalian');
-    Route::patch('pengembalian/{id}/ajukan', [PeminjamanController::class, 'ajukanKembali'])->name('anggota.pengembalian.ajukan');
+    Route::patch('pengembalian/{detail_id}/ajukan', [PeminjamanController::class, 'ajukanKembali'])->name('anggota.pengembalian.ajukan');
 });

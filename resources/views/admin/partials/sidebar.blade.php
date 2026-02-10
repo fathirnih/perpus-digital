@@ -5,7 +5,7 @@
         <li class="mb-2"><a href="{{ route('admin.anggota.index') }}" class="hover:underline">Anggota</a></li>
         <li class="mb-2"><a href="{{ route('admin.buku.index') }}" class="hover:underline">Buku</a></li>
         <li class="mb-2"><a href="{{ route('admin.kategori.index') }}" class="hover:underline">Kategori</a></li>
-        <li class="mb-2"><a href="#" class="hover:underline">Peminjaman</a></li>
+        <li class="mb-2"><a href="{{ route('admin.pengembalian.index') }}" class="hover:underline">Pengembalian</a></li>
         <li class="mb-2">
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf

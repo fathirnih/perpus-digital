@@ -31,4 +31,9 @@ public function buku()
                 ->withTimestamps();
 }
 
+public function detailPeminjaman()
+{
+    return $this->hasMany(DetailPeminjaman::class, 'peminjaman_id');
+}
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Peminjaman;
 use App\Models\Buku;
 use Illuminate\Support\Facades\Auth;
+use App\Models\DetailPeminjaman;
 
 class PeminjamanController extends Controller
 {
@@ -61,19 +62,36 @@ class PeminjamanController extends Controller
 
 
     // Kembalikan buku
-    public function kembali($id)
-    {
-        $peminjaman = Peminjaman::findOrFail($id);
+   public function pengembalian()
+{
+    $anggota = Auth::guard('anggota')->user();
 
-        // Hanya anggota yang sama bisa mengembalikan
-        if ($peminjaman->anggota_id != Auth::guard('anggota')->id()) {
-            abort(403);
-        }
+    // Ambil detail peminjaman yang masih dipinjam untuk anggota ini
+    $detailPeminjaman = DetailPeminjaman::with('buku', 'peminjaman')
+        ->whereHas('peminjaman', function($q) use ($anggota) {
+            $q->where('anggota_id', $anggota->id)
+              ->where('status', 'dipinjam');
+        })
+        ->where('status_kembali', 'dipinjam')
+        ->get();
 
-        $peminjaman->status = 'dikembalikan';
-        $peminjaman->tanggal_kembali = now();
-        $peminjaman->save();
+    return view('anggota.pengembalian.index', compact('detailPeminjaman'));
+}
 
-        return redirect()->route('anggota.peminjaman')->with('success', 'Buku berhasil dikembalikan.');
+// Ajukan pengembalian per buku
+public function ajukanKembali($detail_id)
+{
+    $detail = DetailPeminjaman::with('peminjaman')->findOrFail($detail_id);
+
+    // Cek apakah anggota sama
+    if ($detail->peminjaman->anggota_id != Auth::guard('anggota')->id()) {
+        abort(403);
     }
+
+    // Update status_kembali menjadi menunggu persetujuan
+    $detail->status_kembali = 'menunggu persetujuan';
+    $detail->save();
+
+    return redirect()->route('anggota.pengembalian')->with('success', 'Pengembalian buku diajukan, menunggu konfirmasi admin.');
+}
 }

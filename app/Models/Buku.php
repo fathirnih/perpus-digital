@@ -22,12 +22,14 @@ class Buku extends Model
     // Relasi ke kategori
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 
     // Relasi ke detail peminjaman
     public function detailPeminjaman()
     {
-        return $this->hasMany(DetailPeminjaman::class);
+        return $this->belongsToMany(Peminjaman::class, 'detail_peminjaman')
+                ->withPivot('jumlah')
+                ->withTimestamps();
     }
 }

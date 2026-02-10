@@ -18,13 +18,15 @@ class Peminjaman extends Model
 
     // Relasi ke anggota
     public function anggota()
-    {
-        return $this->belongsTo(Anggota::class);
-    }
+{
+    return $this->belongsTo(Anggota::class, 'anggota_id');
+}
 
-    // Relasi ke detail peminjaman
-    public function detailPeminjaman()
-    {
-        return $this->hasMany(DetailPeminjaman::class);
-    }
+public function buku()
+{
+    return $this->belongsToMany(Buku::class, 'detail_peminjaman')
+                ->withPivot('jumlah')
+                ->withTimestamps();
+}
+
 }

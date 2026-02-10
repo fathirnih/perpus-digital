@@ -20,7 +20,8 @@ class Anggota extends Model
 
     // Relasi ke peminjaman
     public function peminjaman()
-    {
-        return $this->hasMany(Peminjaman::class);
-    }
+{
+    return $this->hasMany(Peminjaman::class, 'anggota_id');
+}
+
 }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\AnggotaAuthController;
 use App\Http\Controllers\Admin\AnggotaController;
+use App\Http\Controllers\Admin\BukuController;
+use App\Http\Controllers\Admin\KategoriController;
 
 
 Route::get('/', function() {
@@ -31,4 +33,6 @@ Route::middleware('auth:anggota')->group(function () {
 // Route CRUD Anggota untuk admin
 Route::middleware('auth')->group(function () {
     Route::resource('/admin/anggota', AnggotaController::class, ['as' => 'admin']);
+    Route::resource('/admin/buku', BukuController::class, ['as' => 'admin'])->except(['show']);
+    Route::resource('/admin/kategori', KategoriController::class, ['as' => 'admin'])->except(['show']);
 });

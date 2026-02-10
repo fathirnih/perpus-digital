@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Anggota extends Model
+class Anggota extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
-     protected $table = 'anggota'; 
+    protected $guard = 'anggota';   
+    protected $table = 'anggota'; 
 
     protected $fillable = [
         'nisn',

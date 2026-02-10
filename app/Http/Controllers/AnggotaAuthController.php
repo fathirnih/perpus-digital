@@ -29,6 +29,33 @@ class AnggotaAuthController extends Controller
         return back()->withErrors(['nisn' => 'NISN atau Nama salah!']);
     }
 
+    // Tampilkan form register
+public function showRegisterForm()
+{
+    return view('anggota.auth.register'); // buat view register.blade.php
+}
+
+// Proses register anggota
+public function register(Request $request)
+{
+    $request->validate([
+        'nisn' => 'required|unique:anggota,nisn',
+        'nama' => 'required',
+        'kelas' => 'required',
+        'alamat' => 'required',
+    ]);
+
+    Anggota::create([
+        'nisn' => $request->nisn,
+        'nama' => $request->nama,
+        'kelas' => $request->kelas,
+        'alamat' => $request->alamat,
+    ]);
+
+    return redirect()->route('anggota.login')->with('success', 'Registrasi berhasil, silakan login.');
+}
+
+
     public function logout(Request $request) {
         Auth::guard('anggota')->logout();
         $request->session()->invalidate();
@@ -37,6 +64,8 @@ class AnggotaAuthController extends Controller
     }
 
     public function dashboard() {
-        return view('anggota.dashboard.index');
+
+     $anggota = Auth::guard('anggota')->user();
+        return view('anggota.dashboard.index', compact('anggota'));
     }
 }

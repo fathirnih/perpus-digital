@@ -8,10 +8,19 @@ use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::all();
-        return view('admin.kategori.index', compact('kategori'));
+       $search = $request->get('search');
+    
+    $kategori = Kategori::when($search, function ($query) use ($search) {
+        return $query->where('nama', 'like', '%'.$search.'%')
+                     ->orWhere('keterangan', 'like', '%'.$search.'%');
+    })->paginate(10); // Menambahkan pagination 10 item per halaman
+    
+    $totalKategori = Kategori::count();
+    $kategoriBaruHariIni = Kategori::whereDate('created_at', now())->count();
+    
+    return view('admin.kategori.index', compact('kategori', 'totalKategori', 'kategoriBaruHariIni', 'search'));
     }
 
     public function create()

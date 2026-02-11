@@ -10,7 +10,7 @@ class AnggotaController extends Controller
 {
     public function index()
     {
-        $anggota = Anggota::all();
+        $anggota = Anggota::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.anggota.index', compact('anggota'));
     }
 
@@ -25,11 +25,18 @@ class AnggotaController extends Controller
             'nisn' => 'required|unique:anggota,nisn',
             'nama' => 'required',
             'kelas' => 'required',
+            'alamat' => 'nullable',
         ]);
 
-        Anggota::create($request->all());
+        Anggota::create($request->only(['nisn', 'nama', 'kelas', 'alamat']));
 
         return redirect()->route('admin.anggota.index')->with('success', 'Anggota berhasil ditambahkan.');
+    }
+
+    public function show($id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        return view('admin.anggota.show', compact('anggota'));
     }
 
     public function edit($id)
@@ -44,10 +51,11 @@ class AnggotaController extends Controller
             'nisn' => 'required|unique:anggota,nisn,'.$id,
             'nama' => 'required',
             'kelas' => 'required',
+            'alamat' => 'nullable',
         ]);
 
         $anggota = Anggota::findOrFail($id);
-        $anggota->update($request->all());
+        $anggota->update($request->only(['nisn', 'nama', 'kelas', 'alamat']));
 
         return redirect()->route('admin.anggota.index')->with('success', 'Anggota berhasil diperbarui.');
     }
@@ -55,6 +63,13 @@ class AnggotaController extends Controller
     public function destroy($id)
     {
         $anggota = Anggota::findOrFail($id);
+        
+        // Cek apakah anggota memiliki peminjaman aktif
+        if ($anggota->peminjaman()->where('status', 'dipinjam')->exists()) {
+            return redirect()->route('admin.anggota.index')
+                ->with('error', 'Anggota tidak dapat dihapus karena masih memiliki buku yang dipinjam.');
+        }
+        
         $anggota->delete();
 
         return redirect()->route('admin.anggota.index')->with('success', 'Anggota berhasil dihapus.');

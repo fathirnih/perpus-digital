@@ -10,16 +10,37 @@ use App\Models\Kategori;
 class BukuController extends Controller
 {
     // Tampilkan daftar buku
-    public function index()
-    {
-        // Eager loading relasi kategori
-        $buku = Buku::with('kategori')->get();
+   public function index(Request $request)
+{
+    // Query dasar dengan eager loading dan ordering
+    $query = Buku::with('kategori')
+                 ->orderBy('created_at', 'desc');
 
-        // Tetap ambil semua kategori untuk dropdown/filter jika dibutuhkan
-        $kategori = Kategori::all();
-
-        return view('admin.buku.index', compact('buku', 'kategori'));
+    // Tambahkan filter search jika ada
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('judul', 'like', '%' . $search . '%')
+              ->orWhere('pengarang', 'like', '%' . $search . '%')
+              ->orWhere('penerbit', 'like', '%' . $search . '%')
+              ->orWhereHas('kategori', function($q) use ($search) {
+                  $q->where('nama', 'like', '%' . $search . '%');
+              });
+        });
     }
+
+     // Filter berdasarkan kategori
+    if ($request->has('kategori') && $request->kategori != '') {
+        $query->where('kategori_id', $request->kategori);
+    }
+
+    // Lakukan pagination pada query yang telah difilter
+    $buku = $query->paginate(10);
+
+    $kategori = Kategori::all();
+
+    return view('admin.buku.index', compact('buku','kategori'));
+}
 
     // Form tambah buku
     public function create()

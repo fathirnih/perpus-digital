@@ -7,39 +7,57 @@
 @section('title', 'Daftar Kategori')
 
 @section('content')
-<h1 class="text-3xl font-bold mb-4">Daftar Kategori</h1>
+<div class="p-6 bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Daftar Kategori</h1>
+        <a href="{{ route('admin.kategori.create') }}" class="bg-green-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-700 transition duration-200 flex items-center">
+            <i class="fas fa-plus mr-2"></i> Tambah Kategori
+        </a>
+    </div>
 
-<a href="{{ route('admin.kategori.create') }}" class="bg-green-600 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-green-700">Tambah Kategori</a>
+    <!-- Success Message -->
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center">
+            <i class="fas fa-check-circle mr-3"></i> {{ session('success') }}
+        </div>
+    @endif
 
-@if(session('success'))
-    <p class="text-green-600 mb-4">{{ session('success') }}</p>
-@endif
-
-<table class="w-full table-auto border">
-    <thead>
-        <tr class="bg-gray-200">
-            <th class="border px-2 py-1">#</th>
-            <th class="border px-2 py-1">Nama</th>
-            <th class="border px-2 py-1">Keterangan</th>
-            <th class="border px-2 py-1">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($kategori as $i => $k)
-        <tr>
-            <td class="border px-2 py-1">{{ $i + 1 }}</td>
-            <td class="border px-2 py-1">{{ $k->nama }}</td>
-            <td class="border px-2 py-1">{{ $k->keterangan }}</td>
-            <td class="border px-2 py-1 flex gap-2">
-                <a href="{{ route('admin.kategori.edit', $k->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Edit</a>
-                <form action="{{ route('admin.kategori.destroy', $k->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <!-- Table -->
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($kategori as $i => $k)
+                    <tr class="hover:bg-gray-50 transition duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $i + 1 }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $k->nama }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $k->keterangan }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-2">
+                            <a href="{{ route('admin.kategori.edit', $k->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-200 flex items-center">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </a>
+                            <form action="{{ route('admin.kategori.destroy', $k->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-200 flex items-center" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <i class="fas fa-trash mr-1"></i> Hapus
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection

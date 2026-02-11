@@ -7,32 +7,111 @@
 @section('title', 'Edit Buku')
 
 @section('content')
-<h1 class="text-3xl font-bold mb-4">Edit Buku</h1>
+<div class="p-6 bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Edit Buku</h1>
+    </div>
 
-<form action="{{ route('admin.buku.update', $buku->id) }}" method="POST" class="flex flex-col gap-4 w-96">
-    @csrf
-    @method('PUT')
-    
-    <input type="text" name="judul" value="{{ $buku->judul }}" class="border p-2 rounded" placeholder="Judul" required>
-    <input type="text" name="pengarang" value="{{ $buku->pengarang }}" class="border p-2 rounded" placeholder="Pengarang">
-    <input type="text" name="penerbit" value="{{ $buku->penerbit }}" class="border p-2 rounded" placeholder="Penerbit">
+    <!-- Form Card -->
+    <div class="bg-gradient-to-r from-white to-gray-50 shadow-xl rounded-xl p-8">
+        <form action="{{ route('admin.buku.update', $buku->id) }}" method="POST" class="space-y-6">
+            @csrf
+            @method('PUT')
 
-    <!-- Tahun Terbit -->
-    <input type="number" name="tahun_terbit" value="{{ $buku->tahun_terbit }}" class="border p-2 rounded" placeholder="Tahun Terbit" required>
+            <!-- Input Grid (Judul and Pengarang) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Judul Input -->
+                <div class="relative">
+                    <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">Judul</label>
+                    <div class="relative">
+                        <i class="fas fa-book absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="judul" name="judul" value="{{ $buku->judul }}" placeholder="Masukkan Judul Buku" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200" required>
+                    </div>
+                    @error('judul')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    <!-- Jumlah -->
-    <input type="number" name="jumlah" value="{{ $buku->jumlah }}" class="border p-2 rounded" placeholder="Jumlah Buku" required>
+                <!-- Pengarang Input -->
+                <div class="relative">
+                    <label for="pengarang" class="block text-sm font-medium text-gray-700 mb-2">Pengarang</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="pengarang" name="pengarang" value="{{ $buku->pengarang }}" placeholder="Masukkan Pengarang" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200">
+                    </div>
+                    @error('pengarang')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
 
-    <!-- Dropdown Kategori -->
-    <select name="kategori_id" class="border p-2 rounded" required>
-        <option value="">-- Pilih Kategori --</option>
-        @foreach($kategori as $k)
-            <option value="{{ $k->id }}" {{ $buku->kategori_id == $k->id ? 'selected' : '' }}>
-                {{ $k->nama }}
-            </option>
-        @endforeach
-    </select>
+            <!-- Input Grid (Penerbit and Tahun Terbit) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Penerbit Input -->
+                <div class="relative">
+                    <label for="penerbit" class="block text-sm font-medium text-gray-700 mb-2">Penerbit</label>
+                    <div class="relative">
+                        <i class="fas fa-building absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="penerbit" name="penerbit" value="{{ $buku->penerbit }}" placeholder="Masukkan Penerbit" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200">
+                    </div>
+                    @error('penerbit')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    <button type="submit" class="bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600">Update</button>
-</form>
+                <!-- Tahun Terbit Input -->
+                <div class="relative">
+                    <label for="tahun_terbit" class="block text-sm font-medium text-gray-700 mb-2">Tahun Terbit</label>
+                    <div class="relative">
+                        <i class="fas fa-calendar absolute left-3 top-3 text-gray-400"></i>
+                        <input type="number" id="tahun_terbit" name="tahun_terbit" value="{{ $buku->tahun_terbit }}" placeholder="Masukkan Tahun Terbit" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200" required>
+                    </div>
+                    @error('tahun_terbit')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- Input Grid (Jumlah and Kategori) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Jumlah Input -->
+                <div class="relative">
+                    <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Buku</label>
+                    <div class="relative">
+                        <i class="fas fa-hashtag absolute left-3 top-3 text-gray-400"></i>
+                        <input type="number" id="jumlah" name="jumlah" value="{{ $buku->jumlah }}" placeholder="Masukkan Jumlah Buku" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200" required>
+                    </div>
+                    @error('jumlah')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Kategori Select -->
+                <div class="relative">
+                    <label for="kategori_id" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                    <div class="relative">
+                        <i class="fas fa-tags absolute left-3 top-3 text-gray-400"></i>
+                        <select id="kategori_id" name="kategori_id" class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition duration-200" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            @foreach($kategori as $k)
+                                <option value="{{ $k->id }}" {{ $buku->kategori_id == $k->id ? 'selected' : '' }}>
+                                    {{ $k->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('kategori_id')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 px-6 rounded-lg hover:from-yellow-600 hover:to-yellow-700 transition duration-300 flex items-center justify-center shadow-md">
+                <i class="fas fa-edit mr-2"></i> Update Buku
+            </button>
+        </form>
+    </div>
+</div>
 @endsection

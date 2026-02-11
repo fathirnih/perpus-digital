@@ -23,17 +23,7 @@ class ProfileController extends Controller
             'nama' => 'required|string|max:255',
             'kelas' => 'required|string|max:50',
             'alamat' => 'nullable|string|max:500',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Upload foto baru
-        if ($request->hasFile('foto')) {
-            if ($anggota->foto && Storage::exists('public/' . $anggota->foto)) {
-                Storage::delete('public/' . $anggota->foto);
-            }
-            $fotoPath = $request->file('foto')->store('uploads/anggota', 'public');
-            $validated['foto'] = $fotoPath;
-        }
 
         $anggota->update($validated);
 

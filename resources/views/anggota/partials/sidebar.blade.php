@@ -13,28 +13,30 @@
     </div>
 
     <!-- User Profile -->
-    <div class="p-6 border-b border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
-        <div class="flex items-center space-x-3">
-            <div class="relative">
-                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 p-0.5 shadow-md">
-                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden border-2 border-white">
-                        @if(isset($anggota) && $anggota->foto)
-                            <img src="{{ asset('storage/' . $anggota->foto) }}" 
-                                 alt="{{ $anggota->nama }}" 
-                                 class="w-full h-full object-cover">
-                        @else
-                            <i class="fas fa-user text-green-600 text-xl"></i>
-                        @endif
-                    </div>
+<div class="p-6 border-b border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+    <div class="flex items-center space-x-3">
+        <div class="relative">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-md">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden border-2 border-white">
+                    <!-- Menampilkan inisial nama atau ikon -->
+                    @if(isset($anggota) && $anggota->nama)
+                        <span class="text-green-600 font-bold text-lg">
+                            {{ substr($anggota->nama, 0, 1) }}
+                        </span>
+                    @else
+                        <i class="fas fa-user text-green-600 text-xl"></i>
+                    @endif
                 </div>
-                <span class="absolute bottom-1 right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
             </div>
-            <div class="flex-1 min-w-0">
-                <h3 class="font-semibold text-gray-800 truncate">{{ $anggota->nama ?? 'Siswa' }}</h3>
-                <p class="text-sm text-gray-600 truncate">{{ $anggota->kelas ?? 'Kelas' }}</p>
-            </div>
+            <!-- Status online indicator -->
+            <span class="absolute bottom-1 right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
+        </div>
+        <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-gray-800 truncate">{{ $anggota->nama ?? 'Siswa' }}</h3>
+            <p class="text-sm text-gray-600 truncate">{{ $anggota->kelas ?? 'Kelas' }}</p>
         </div>
     </div>
+</div>
 
     <!-- Navigation -->
     <nav class="flex-1 p-4 overflow-y-auto">

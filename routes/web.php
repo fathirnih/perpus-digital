@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BukuController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\Admin\PengembalianController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PeminjamanController as AdminPeminjamanController;
 
 
@@ -52,4 +53,8 @@ Route::middleware('auth:anggota')->group(function () {
     Route::post('/anggota/peminjaman', [PeminjamanController::class, 'store'])->name('anggota.peminjaman.store');
     Route::get('pengembalian', [PeminjamanController::class, 'pengembalian'])->name('anggota.pengembalian');
     Route::patch('pengembalian/{detail_id}/ajukan', [PeminjamanController::class, 'ajukanKembali'])->name('anggota.pengembalian.ajukan');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('anggota.profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('anggota.profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('anggota.profile.password');
 });

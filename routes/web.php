@@ -10,10 +10,14 @@ use App\Http\Controllers\Admin\PengembalianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PeminjamanController as AdminPeminjamanController;
 
+Route::get('/', function () {
+    return view('auth.choose');
+});
 
 Route::get('/', function() {
     return view('auth.choose');
-});
+})->name('login');
+
 
 // Login Admin
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
@@ -32,7 +36,7 @@ Route::post('/anggota/register', [AnggotaAuthController::class, 'register']);
 
 
 // Middleware admin
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware('admin.auth')->prefix('admin')->group(function () {
     Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 
     // CRUD admin
@@ -46,7 +50,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 });
 
 // Middleware anggota
-Route::middleware('auth:anggota')->group(function () {
+Route::middleware('anggota.auth')->group(function () {
     Route::get('/anggota/dashboard', [AnggotaAuthController::class, 'dashboard'])->name('anggota.dashboard');
 
     Route::get('/anggota/peminjaman', [PeminjamanController::class, 'index'])->name('anggota.peminjaman');

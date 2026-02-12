@@ -9,13 +9,11 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login admin
     public function showLoginForm()
     {
-        return view('admin.auth.login'); // view di folder admin/auth/login.blade.php
+        return view('admin.auth.login');
     }
 
-    // Proses login admin
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -31,16 +29,14 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Email atau password salah!']);
     }
 
-    // Logout admin
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/admin/login');
+        return redirect()->route('login');
     }
 
-    // Dashboard admin
     public function dashboard()
     {
         return view('admin.dashboard.index');

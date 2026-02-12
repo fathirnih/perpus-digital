@@ -10,9 +10,6 @@ class AnggotaAuthController extends Controller
 {
     public function showLoginForm()
     {
-        if (Auth::guard('anggota')->check()) {
-            return redirect('/anggota/dashboard');
-        }
         return view('anggota.auth.login');
     }
 
@@ -36,16 +33,11 @@ class AnggotaAuthController extends Controller
         return back()->withErrors(['nisn' => 'NISN atau Nama salah!'])->withInput();
     }
 
-    // Tampilkan form register
     public function showRegisterForm()
     {
-        if (Auth::guard('anggota')->check()) {
-            return redirect('/anggota/dashboard');
-        }
         return view('anggota.auth.register');
     }
 
-    // Proses register anggota
     public function register(Request $request)
     {
         $request->validate([
@@ -74,15 +66,15 @@ class AnggotaAuthController extends Controller
         Auth::guard('anggota')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/anggota/login');
+        return redirect()->route('login');
     }
 
     public function dashboard()
     {
-        $anggota = Auth::guard('anggota')->user();
+        $anggota = Auth::guard('anggota')->user();  
 
         if (!$anggota) {
-            return redirect('/anggota/login');
+            return redirect()->route('login');
         }
 
         // Total buku yang sedang dipinjam

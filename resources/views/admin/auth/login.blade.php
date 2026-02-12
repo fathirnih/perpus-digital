@@ -51,13 +51,6 @@
                 <i class="fas fa-sign-in-alt mr-2 group-hover:rotate-12 transition duration-300"></i> Login
             </button>
         </form>
-
-        <!-- Back Link -->
-        <p class="text-center mt-6 text-gray-500">
-            <a href="{{ url('/') }}" class="hover:underline text-blue-600 flex items-center justify-center">
-                <i class="fas fa-arrow-left mr-2"></i> Kembali
-            </a>
-        </p>
     </div>
 
 </body>

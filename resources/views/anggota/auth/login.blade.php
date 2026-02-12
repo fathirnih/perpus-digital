@@ -55,11 +55,6 @@
         <!-- Links -->
         <div class="text-center mt-6 space-y-2">
             <!-- Link Kembali -->
-            <p>
-                <a href="{{ url('/') }}" class="hover:underline text-green-600 flex items-center justify-center">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
-                </a>
-            </p>
             <!-- Link Register -->
             <p>
                 <a href="{{ route('anggota.register') }}" class="hover:underline text-green-600 flex items-center justify-center">

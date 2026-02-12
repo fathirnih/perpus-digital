@@ -11,12 +11,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PeminjamanController as AdminPeminjamanController;
 
 Route::get('/', function () {
-    return view('auth.choose');
+    return redirect()->route('anggota.login');
 });
 
-Route::get('/', function() {
-    return view('auth.choose');
-})->name('login');
 
 
 // Login Admin
@@ -25,13 +22,13 @@ Route::post('/admin/login', [AdminAuthController::class, 'login']);
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 // Login Anggota
-Route::get('/anggota/login', [AnggotaAuthController::class, 'showLoginForm'])->name('anggota.login');
-Route::post('/anggota/login', [AnggotaAuthController::class, 'login']);
-Route::post('/anggota/logout', [AnggotaAuthController::class, 'logout'])->name('anggota.logout');
+Route::get('/login', [AnggotaAuthController::class, 'showLoginForm'])->name('anggota.login');
+Route::post('/login', [AnggotaAuthController::class, 'login']);
+Route::post('/logout', [AnggotaAuthController::class, 'logout'])->name('anggota.logout');
 
 // Form register anggota
-Route::get('/anggota/register', [AnggotaAuthController::class, 'showRegisterForm'])->name('anggota.register');
-Route::post('/anggota/register', [AnggotaAuthController::class, 'register']);
+Route::get('/register', [AnggotaAuthController::class, 'showRegisterForm'])->name('anggota.register');
+Route::post('/register', [AnggotaAuthController::class, 'register']);
 
 
 

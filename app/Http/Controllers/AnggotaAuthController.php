@@ -66,7 +66,7 @@ class AnggotaAuthController extends Controller
         Auth::guard('anggota')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('anggota.login');
     }
 
     public function dashboard()
@@ -74,7 +74,7 @@ class AnggotaAuthController extends Controller
         $anggota = Auth::guard('anggota')->user();  
 
         if (!$anggota) {
-            return redirect()->route('login');
+            return redirect()->route('anggota.login');
         }
 
         // Total buku yang sedang dipinjam
